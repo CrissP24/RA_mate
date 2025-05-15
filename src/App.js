@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react';
+import Navbar from './components/Navbar';
+import HomePage from './components/HomePage';
+import AboutPage from './components/AboutPage';
+import ProjectsPage from './components/ProjectsPage';
+import ContactPage from './components/ContactPage';
+import LoginPage from './components/LoginPage';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles.css';
 
 function App() {
+  const [currentPage, setCurrentPage] = useState(window.location.hash || '#home');
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentPage(window.location.hash || '#home');
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {currentPage === '#login' ? <LoginPage /> :
+       currentPage === '#about' ? <AboutPage /> :
+       currentPage === '#projects' ? <ProjectsPage /> :
+       currentPage === '# nosotros' ? <ContactPage /> :
+       <HomePage />}
     </div>
   );
 }
